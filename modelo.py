@@ -2,6 +2,7 @@ import sqlite3
 from tkinter import messagebox
 from validar import Validar
 import pandas as pd
+from datetime import datetime
 
 
 def extraer_datos_graficar():
@@ -107,6 +108,17 @@ class Accionar_bd:
             )
         con.close()
 
+    def registro_log(funcion):
+        def registra_texto(*args):
+            funcion(*args)
+            ahora = datetime.now()
+            archi1 = open("log.txt", "a")
+            archi1.write("ALTA: " + str(ahora) + "\n")
+            archi1.close()
+
+        return registra_texto
+
+    @registro_log
     def alta(
         self,
         titulo,
