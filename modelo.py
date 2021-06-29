@@ -108,17 +108,20 @@ class Accionar_bd:
             )
         con.close()
 
-    def registro_log(funcion):
-        def registra_texto(*args):
-            funcion(*args)
-            ahora = datetime.now()
-            archi1 = open("log.txt", "a")
-            archi1.write("ALTA: " + str(ahora) + "\n")
-            archi1.close()
+    def registro_log(arg):
+        def decorador_parametro(funcion):
+            def registra_texto(*args):
+                funcion(*args)
+                ahora = datetime.now()
+                archi1 = open("log.txt", "a")
+                archi1.write(arg + str(ahora) + "\n")
+                archi1.close()
 
-        return registra_texto
+            return registra_texto
 
-    @registro_log
+        return decorador_parametro
+
+    @registro_log("PROCESO DE ALTA ")
     def alta(
         self,
         titulo,
@@ -196,6 +199,7 @@ class Accionar_bd:
                     title="Estado",
                 )
 
+    @registro_log("PROCESO DE BAJA ")
     def baja(self, tit, mitreeview):
         confirma = messagebox.askquestion(
             "Confirmación de BAJA", "Está seguro"
@@ -221,6 +225,7 @@ class Accionar_bd:
                 title="Estado",
             )
 
+    @registro_log("PROCESO DE MODIFICACION ")
     def modificar(
         self,
         titulo,
