@@ -183,7 +183,16 @@ class Accionar_bd:
                     message="Debe ingresar un ISBN válido",
                     title="Estado",
                 )
-
+			
+			def agregar(self, objeto):
+				self.observadores.append(objeto)
+			def quitar(self, objeto):
+				pass
+			def notificar(self):
+				for observador in self.observadores:
+					observador.update()
+					
+			
     def baja(self, tit, mitreeview):
         confirma = messagebox.askquestion(
             "Confirmación de BAJA", "Está seguro"
